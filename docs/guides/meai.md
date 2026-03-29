@@ -1,15 +1,24 @@
 # Microsoft.Extensions.AI Integration
 
-The Sightengine SDK provides `AIFunction` tools that can be used with any `IChatClient` from the Microsoft.Extensions.AI ecosystem.
+!!! tip "Cross-SDK comparison"
+    See the [centralized MEAI documentation](https://tryagi.github.io/docs/meai/) for feature matrices and comparisons across all tryAGI SDKs.
+
+The Sightengine SDK provides `AIFunction` tool wrappers compatible with [Microsoft.Extensions.AI](https://learn.microsoft.com/en-us/dotnet/ai/microsoft-extensions-ai). These tools can be used with any `IChatClient` to give AI models access to Sightengine's image and text moderation, AI-generated image detection, and username validation.
+
+## Installation
+
+```bash
+dotnet add package Sightengine
+```
 
 ## Available Tools
 
-| Tool | Description |
-|------|-------------|
-| `AsModerateImageTool()` | Moderate an image URL for nudity, violence, gore, weapons, drugs, alcohol, offensive content, self-harm, and scam |
-| `AsDetectAiGeneratedTool()` | Detect whether an image was AI-generated |
-| `AsModerateTextTool()` | Moderate text for profanity, personal information, and links |
-| `AsValidateUsernameTool()` | Validate a username for profanity and misleading content |
+| Method | Tool Name | Description |
+|--------|-----------|-------------|
+| `AsModerateImageTool()` | `ModerateImage` | Moderate an image URL for nudity, violence, gore, weapons, drugs, and more |
+| `AsDetectAiGeneratedTool()` | `DetectAiGeneratedImage` | Detect whether an image was AI-generated |
+| `AsModerateTextTool()` | `ModerateText` | Moderate text for profanity, personal information, and links |
+| `AsValidateUsernameTool()` | `ValidateUsername` | Validate a username for profanity and misleading content |
 
 ## Usage
 
@@ -17,36 +26,41 @@ The Sightengine SDK provides `AIFunction` tools that can be used with any `IChat
 using Sightengine;
 using Microsoft.Extensions.AI;
 
-// Create Sightengine client
-var sightengine = new SightengineClient(
-    apiUser: Environment.GetEnvironmentVariable("SIGHTENGINE_API_USER")!,
-    apiSecret: Environment.GetEnvironmentVariable("SIGHTENGINE_API_SECRET")!);
+var sightengineClient = new SightengineClient(
+    apiKey: Environment.GetEnvironmentVariable("SIGHTENGINE_API_USER")! + ":" +
+            Environment.GetEnvironmentVariable("SIGHTENGINE_API_SECRET")!);
 
-// Create tools
-var moderateImageTool = sightengine.AsModerateImageTool();
-var detectAiTool = sightengine.AsDetectAiGeneratedTool();
-var moderateTextTool = sightengine.AsModerateTextTool();
+var options = new ChatOptions
+{
+    Tools =
+    [
+        sightengineClient.AsModerateImageTool(),
+        sightengineClient.AsDetectAiGeneratedTool(),
+        sightengineClient.AsModerateTextTool(),
+        sightengineClient.AsValidateUsernameTool(),
+    ],
+};
 
-// Use with any IChatClient
-IChatClient chatClient = /* your preferred chat client */;
-var response = await chatClient.GetResponseAsync(
-    "Is this image safe? https://example.com/image.jpg",
-    new ChatOptions
+IChatClient chatClient = /* your chat client */;
+
+var messages = new List<ChatMessage>
+{
+    new(ChatRole.User, "Check if this image is AI-generated: https://example.com/photo.jpg"),
+};
+
+while (true)
+{
+    var response = await chatClient.GetResponseAsync(messages, options);
+    messages.AddRange(response.ToChatMessages());
+
+    if (response.FinishReason == ChatFinishReason.ToolCalls)
     {
-        Tools = [moderateImageTool, detectAiTool],
-    });
-```
+        var results = await response.CallToolsAsync(options);
+        messages.AddRange(results);
+        continue;
+    }
 
-## Custom Models
-
-You can customize which detection models to use with `AsModerateImageTool()`:
-
-```csharp
-// Only check for nudity and violence
-var tool = sightengine.AsModerateImageTool(
-    models: "nudity-2.1,violence");
-
-// Full moderation suite
-var fullTool = sightengine.AsModerateImageTool(
-    models: "nudity-2.1,gore-2.0,weapon,drugs,violence,alcohol,offensive,self-harm,scam");
+    Console.WriteLine(response.Text);
+    break;
+}
 ```
