@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Nuget">
+    <Description>C# SDK for the Sightengine API -- visual content moderation for nudity, violence, hate speech, and 120+ categories.</Description>
+    <PackageTags>Sightengine;content-moderation;image-moderation;nudity-detection;violence-detection;ai;sdk;dotnet;openapi</PackageTags>
+    <NoWarn>$(NoWarn);CS3002;CS3003;CS1591;CA1822</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="[9.6.0,)" />
+  </ItemGroup>
+
+</Project>

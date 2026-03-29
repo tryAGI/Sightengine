@@ -1,0 +1,1069 @@
+openapi: 3.0.3
+info:
+  title: Sightengine API
+  description: |
+    Sightengine is a visual content moderation platform with 120+ detection classes
+    covering nudity, violence, hate speech, drugs, weapons, self-harm, and more.
+    Supports images, videos, live streams, and text moderation in 200+ languages.
+    Authentication uses dual query parameters: api_user and api_secret.
+  version: '1.0'
+  contact:
+    name: Sightengine
+    url: https://sightengine.com
+servers:
+  - url: https://api.sightengine.com/1.0
+    description: Production server
+security:
+  - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    # ─── Common Types ───
+    RequestInfo:
+      type: object
+      description: Information about the API request.
+      properties:
+        id:
+          type: string
+          description: Unique request identifier.
+        timestamp:
+          type: number
+          format: double
+          description: Unix timestamp of the request.
+        operations:
+          type: integer
+          description: Number of operations consumed.
+    MediaInfo:
+      type: object
+      description: Information about the analyzed media.
+      properties:
+        id:
+          type: string
+          description: Unique media identifier.
+        uri:
+          type: string
+          description: URI of the analyzed media.
+    # ─── Nudity Model ───
+    NudityResult:
+      type: object
+      description: Nudity detection results with confidence scores (0-1).
+      properties:
+        sexual_activity:
+          type: number
+          format: double
+          description: Confidence score for sexual activity content.
+        sexual_display:
+          type: number
+          format: double
+          description: Confidence score for sexual display content.
+        erotica:
+          type: number
+          format: double
+          description: Confidence score for erotic content.
+        sextoy:
+          type: number
+          format: double
+          description: Confidence score for sex toy content.
+        suggestive:
+          type: number
+          format: double
+          description: Overall suggestive content score.
+        suggestive_classes:
+          $ref: '#/components/schemas/SuggestiveClasses'
+        none:
+          type: number
+          format: double
+          description: Confidence score for no nudity detected.
+        context:
+          $ref: '#/components/schemas/NudityContext'
+    SuggestiveClasses:
+      type: object
+      description: Breakdown of suggestive content categories.
+      properties:
+        bikini:
+          type: number
+          format: double
+          description: Confidence score for bikini content.
+        cleavage:
+          type: number
+          format: double
+          description: Confidence score for cleavage.
+        cleavage_categories:
+          type: object
+          properties:
+            very_revealing:
+              type: number
+              format: double
+            revealing:
+              type: number
+              format: double
+            none:
+              type: number
+              format: double
+        lingerie:
+          type: number
+          format: double
+          description: Confidence score for lingerie.
+        male_chest:
+          type: number
+          format: double
+          description: Confidence score for male chest.
+        male_chest_categories:
+          type: object
+          properties:
+            very_revealing:
+              type: number
+              format: double
+            revealing:
+              type: number
+              format: double
+            slightly_revealing:
+              type: number
+              format: double
+            none:
+              type: number
+              format: double
+        male_underwear:
+          type: number
+          format: double
+          description: Confidence score for male underwear.
+        miniskirt:
+          type: number
+          format: double
+          description: Confidence score for miniskirt.
+        other:
+          type: number
+          format: double
+          description: Confidence score for other suggestive content.
+    NudityContext:
+      type: object
+      description: Context information for nudity analysis.
+      properties:
+        sea_lake_pool:
+          type: number
+          format: double
+          description: Confidence the image is at a sea, lake, or pool.
+        outdoor_other:
+          type: number
+          format: double
+          description: Confidence the image is in an outdoor setting.
+        indoor_other:
+          type: number
+          format: double
+          description: Confidence the image is in an indoor setting.
+    # ─── Weapon Model ───
+    WeaponResult:
+      type: object
+      description: Weapon detection results.
+      properties:
+        classes:
+          type: object
+          properties:
+            firearm:
+              type: number
+              format: double
+              description: Confidence score for firearms.
+            knife:
+              type: number
+              format: double
+              description: Confidence score for knives.
+    # ─── Drug Model ───
+    DrugResult:
+      type: object
+      description: Drug detection results.
+      properties:
+        classes:
+          type: object
+          properties:
+            recreational:
+              type: number
+              format: double
+              description: Confidence score for recreational drugs.
+            medical:
+              type: number
+              format: double
+              description: Confidence score for medical drugs.
+            paraphernalia:
+              type: number
+              format: double
+              description: Confidence score for drug paraphernalia.
+    # ─── Offensive Model ───
+    OffensiveResult:
+      type: object
+      description: Offensive content detection results.
+      properties:
+        prob:
+          type: number
+          format: double
+          description: Probability of offensive content.
+        classes:
+          type: object
+          properties:
+            nazi:
+              type: number
+              format: double
+              description: Confidence score for Nazi content.
+            confederate:
+              type: number
+              format: double
+              description: Confidence score for Confederate content.
+            supremacist:
+              type: number
+              format: double
+              description: Confidence score for supremacist content.
+            terrorist:
+              type: number
+              format: double
+              description: Confidence score for terrorist content.
+            middle_finger:
+              type: number
+              format: double
+              description: Confidence score for middle finger gesture.
+    # ─── Gore Model ───
+    GoreResult:
+      type: object
+      description: Gore and disturbing content detection results.
+      properties:
+        prob:
+          type: number
+          format: double
+          description: Overall probability of gore content.
+        classes:
+          type: object
+          properties:
+            very_bloody:
+              type: number
+              format: double
+              description: Confidence score for very bloody content.
+            slightly_bloody:
+              type: number
+              format: double
+              description: Confidence score for slightly bloody content.
+            body_organ:
+              type: number
+              format: double
+              description: Confidence score for body organ content.
+            corpse:
+              type: number
+              format: double
+              description: Confidence score for corpse content.
+            skull:
+              type: number
+              format: double
+              description: Confidence score for skull content.
+    # ─── Scam Model ───
+    ScamResult:
+      type: object
+      description: Scam and fraud detection results.
+      properties:
+        prob:
+          type: number
+          format: double
+          description: Probability of scam/fraud content.
+    # ─── Face Detection ───
+    FaceResult:
+      type: object
+      description: Face detection and analysis results.
+      properties:
+        faces:
+          type: array
+          description: List of detected faces.
+          items:
+            $ref: '#/components/schemas/DetectedFace'
+    DetectedFace:
+      type: object
+      description: A single detected face with attributes.
+      properties:
+        x1:
+          type: number
+          format: double
+          description: Top-left X coordinate (0-1).
+        y1:
+          type: number
+          format: double
+          description: Top-left Y coordinate (0-1).
+        x2:
+          type: number
+          format: double
+          description: Bottom-right X coordinate (0-1).
+        y2:
+          type: number
+          format: double
+          description: Bottom-right Y coordinate (0-1).
+        features:
+          type: object
+          description: Face feature attributes.
+          properties:
+            gender:
+              type: string
+              description: Detected gender.
+            minor:
+              type: number
+              format: double
+              description: Confidence the person is a minor.
+            age:
+              type: number
+              format: double
+              description: Estimated age.
+    # ─── Text (OCR) in Image ───
+    TextContentResult:
+      type: object
+      description: Text detected in image via OCR.
+      properties:
+        words:
+          type: array
+          description: List of detected text elements.
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                description: The detected text.
+              type:
+                type: string
+                description: Type of content (profanity, email, phone, url, etc.).
+    # ─── QR Code ───
+    QrResult:
+      type: object
+      description: QR code detection results.
+      properties:
+        qr_codes:
+          type: array
+          description: List of detected QR codes.
+          items:
+            type: object
+            properties:
+              data:
+                type: string
+                description: Decoded QR code data.
+              type:
+                type: string
+                description: Type of QR code content.
+    # ─── AI Generated ───
+    AiGeneratedResult:
+      type: object
+      description: AI-generated content detection result.
+      properties:
+        ai_generated:
+          type: number
+          format: double
+          description: Confidence score that the image was AI-generated (0-1).
+    # ─── Image Type ───
+    ImageTypeResult:
+      type: object
+      description: Image type classification result.
+      properties:
+        photo:
+          type: number
+          format: double
+          description: Confidence the image is a photograph.
+        illustration:
+          type: number
+          format: double
+          description: Confidence the image is an illustration.
+    # ─── Image Quality ───
+    ImageQualityResult:
+      type: object
+      description: Image quality assessment results.
+      properties:
+        quality:
+          type: number
+          format: double
+          description: Overall quality score (0-1).
+        is_blurry:
+          type: boolean
+          description: Whether the image is blurry.
+    # ─── Image Check Response ───
+    ImageCheckResponse:
+      type: object
+      description: Response from the image moderation check endpoint.
+      properties:
+        status:
+          type: string
+          description: Response status (success or failure).
+        request:
+          $ref: '#/components/schemas/RequestInfo'
+        nudity:
+          $ref: '#/components/schemas/NudityResult'
+        weapon:
+          type: number
+          format: double
+          description: Overall weapon detection score.
+        weapons_classes:
+          $ref: '#/components/schemas/WeaponResult'
+        alcohol:
+          type: number
+          format: double
+          description: Alcohol detection score.
+        drugs:
+          type: number
+          format: double
+          description: Overall drug detection score.
+        drugs_classes:
+          $ref: '#/components/schemas/DrugResult'
+        offensive:
+          $ref: '#/components/schemas/OffensiveResult'
+        gore:
+          $ref: '#/components/schemas/GoreResult'
+        violence:
+          type: number
+          format: double
+          description: Violence detection score.
+        self_harm:
+          type: number
+          format: double
+          description: Self-harm detection score.
+        scam:
+          $ref: '#/components/schemas/ScamResult'
+        faces:
+          type: array
+          description: Detected faces with attributes.
+          items:
+            $ref: '#/components/schemas/DetectedFace'
+        text:
+          $ref: '#/components/schemas/TextContentResult'
+        qr:
+          $ref: '#/components/schemas/QrResult'
+        ai_generated:
+          type: number
+          format: double
+          description: AI-generated content confidence score.
+        type:
+          $ref: '#/components/schemas/ImageTypeResult'
+        quality:
+          $ref: '#/components/schemas/ImageQualityResult'
+        media:
+          $ref: '#/components/schemas/MediaInfo'
+    # ─── Workflow Response ───
+    WorkflowCheckResponse:
+      type: object
+      description: Response from the workflow-based moderation check.
+      properties:
+        status:
+          type: string
+          description: Response status.
+        request:
+          $ref: '#/components/schemas/RequestInfo'
+        summary:
+          type: object
+          description: Workflow moderation summary.
+          properties:
+            action:
+              type: string
+              description: Recommended action (accept or reject).
+              enum:
+                - accept
+                - reject
+            reject_prob:
+              type: number
+              format: double
+              description: Probability of rejection (0-1).
+            reject_reason:
+              type: array
+              description: Reasons for rejection.
+              items:
+                type: object
+                properties:
+                  text:
+                    type: string
+                    description: Rejection reason text.
+        workflow:
+          type: object
+          description: Workflow information.
+          properties:
+            id:
+              type: string
+              description: Workflow identifier.
+        media:
+          $ref: '#/components/schemas/MediaInfo'
+    # ─── Video Frame ───
+    VideoFrame:
+      type: object
+      description: A single analyzed video frame.
+      properties:
+        info:
+          type: object
+          description: Frame information.
+          properties:
+            id:
+              type: string
+              description: Frame identifier.
+            position:
+              type: number
+              format: double
+              description: Frame position in seconds.
+        nudity:
+          $ref: '#/components/schemas/NudityResult'
+        weapon:
+          type: number
+          format: double
+          description: Weapon detection score for this frame.
+        alcohol:
+          type: number
+          format: double
+          description: Alcohol detection score for this frame.
+        drugs:
+          type: number
+          format: double
+          description: Drug detection score for this frame.
+        offensive:
+          $ref: '#/components/schemas/OffensiveResult'
+        gore:
+          $ref: '#/components/schemas/GoreResult'
+        violence:
+          type: number
+          format: double
+          description: Violence detection score for this frame.
+    # ─── Video Check Sync Response ───
+    VideoCheckSyncResponse:
+      type: object
+      description: Response from synchronous video moderation.
+      properties:
+        status:
+          type: string
+          description: Response status.
+        request:
+          $ref: '#/components/schemas/RequestInfo'
+        media:
+          $ref: '#/components/schemas/MediaInfo'
+        data:
+          type: object
+          description: Video analysis data.
+          properties:
+            frames:
+              type: array
+              description: Analyzed video frames.
+              items:
+                $ref: '#/components/schemas/VideoFrame'
+    # ─── Video Check Async Response ───
+    VideoCheckAsyncResponse:
+      type: object
+      description: Response from asynchronous video moderation initiation.
+      properties:
+        status:
+          type: string
+          description: Response status.
+        request:
+          $ref: '#/components/schemas/RequestInfo'
+        media:
+          $ref: '#/components/schemas/MediaInfo'
+        callback:
+          type: string
+          description: Registered callback URL.
+    # ─── Text Check ───
+    ProfanityMatch:
+      type: object
+      description: A profanity match in text.
+      properties:
+        type:
+          type: string
+          description: Type of profanity (sexual, discriminatory, insult, inappropriate, grawlix).
+        match:
+          type: string
+          description: The matched text.
+        intensity:
+          type: string
+          description: Intensity level of the match.
+        start:
+          type: integer
+          description: Start character index.
+        end:
+          type: integer
+          description: End character index.
+    PersonalMatch:
+      type: object
+      description: A personal information match in text.
+      properties:
+        type:
+          type: string
+          description: Type of personal info (email, phone_number, username, ipv4, ipv6, ssn).
+        match:
+          type: string
+          description: The matched text.
+        start:
+          type: integer
+          description: Start character index.
+        end:
+          type: integer
+          description: End character index.
+    LinkMatch:
+      type: object
+      description: A link match in text.
+      properties:
+        type:
+          type: string
+          description: Type of link.
+        match:
+          type: string
+          description: The matched link text.
+        start:
+          type: integer
+          description: Start character index.
+        end:
+          type: integer
+          description: End character index.
+    TextCheckResponse:
+      type: object
+      description: Response from text moderation check.
+      properties:
+        status:
+          type: string
+          description: Response status.
+        request:
+          $ref: '#/components/schemas/RequestInfo'
+        profanity:
+          type: object
+          description: Profanity detection results.
+          properties:
+            matches:
+              type: array
+              description: List of profanity matches.
+              items:
+                $ref: '#/components/schemas/ProfanityMatch'
+        personal:
+          type: object
+          description: Personal information detection results.
+          properties:
+            matches:
+              type: array
+              description: List of personal info matches.
+              items:
+                $ref: '#/components/schemas/PersonalMatch'
+        link:
+          type: object
+          description: Link detection results.
+          properties:
+            matches:
+              type: array
+              description: List of link matches.
+              items:
+                $ref: '#/components/schemas/LinkMatch'
+        misleading:
+          type: object
+          description: Misleading content detection (for username mode).
+          properties:
+            prob:
+              type: number
+              format: double
+              description: Probability of misleading content.
+    # ─── Feedback Response ───
+    FeedbackResponse:
+      type: object
+      description: Response from the feedback API.
+      properties:
+        status:
+          type: string
+          description: Response status.
+        request:
+          $ref: '#/components/schemas/RequestInfo'
+        media:
+          $ref: '#/components/schemas/MediaInfo'
+        message:
+          type: string
+          description: Feedback confirmation message.
+    # ─── Error Response ───
+    ErrorResponse:
+      type: object
+      description: Error response from the API.
+      properties:
+        status:
+          type: string
+          description: Error status.
+        error:
+          type: object
+          properties:
+            type:
+              type: integer
+              description: Error type code.
+            code:
+              type: integer
+              description: Error code.
+            message:
+              type: string
+              description: Error message.
+paths:
+  /check.json:
+    post:
+      operationId: checkImageByUpload
+      summary: Check Image (Upload)
+      description: |
+        Moderate an uploaded image using one or more detection models.
+        Supports nudity, violence, gore, weapons, drugs, alcohol, offensive content,
+        self-harm, scam detection, face analysis, text-in-image (OCR), QR codes,
+        AI-generated image detection, image type, and quality assessment.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - media
+                - models
+              properties:
+                media:
+                  type: string
+                  format: binary
+                  description: The image file to analyze.
+                models:
+                  type: string
+                  description: |
+                    Comma-separated list of detection models to apply.
+                    Available models: nudity-2.1, gore-2.0, weapon, drugs, violence,
+                    alcohol, offensive, self-harm, scam, face-attributes, text-content,
+                    qr-content, genai, type, quality.
+      responses:
+        '200':
+          description: Successful image moderation response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageCheckResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized — invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      operationId: checkImageByUrl
+      summary: Check Image (URL)
+      description: |
+        Moderate an image by URL using one or more detection models.
+        Supports nudity, violence, gore, weapons, drugs, alcohol, offensive content,
+        self-harm, scam detection, face analysis, text-in-image (OCR), QR codes,
+        AI-generated image detection, image type, and quality assessment.
+      parameters:
+        - name: url
+          in: query
+          required: true
+          description: Public URL of the image to analyze.
+          schema:
+            type: string
+        - name: models
+          in: query
+          required: true
+          description: |
+            Comma-separated list of detection models.
+            Available: nudity-2.1, gore-2.0, weapon, drugs, violence,
+            alcohol, offensive, self-harm, scam, face-attributes, text-content,
+            qr-content, genai, type, quality.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful image moderation response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageCheckResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /check-workflow.json:
+    post:
+      operationId: checkWorkflowByUpload
+      summary: Check Image with Workflow (Upload)
+      description: |
+        Moderate an uploaded image using a pre-configured workflow.
+        Workflows define custom rules and actions from the dashboard.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - media
+                - workflow
+              properties:
+                media:
+                  type: string
+                  format: binary
+                  description: The image file to analyze.
+                workflow:
+                  type: string
+                  description: Workflow ID from the Sightengine dashboard.
+      responses:
+        '200':
+          description: Successful workflow check response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowCheckResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      operationId: checkWorkflowByUrl
+      summary: Check Image with Workflow (URL)
+      description: |
+        Moderate an image by URL using a pre-configured workflow.
+        Workflows define custom rules and actions from the dashboard.
+      parameters:
+        - name: url
+          in: query
+          required: true
+          description: Public URL of the image to analyze.
+          schema:
+            type: string
+        - name: workflow
+          in: query
+          required: true
+          description: Workflow ID from the Sightengine dashboard.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful workflow check response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowCheckResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /video/check-sync.json:
+    post:
+      operationId: checkVideoSync
+      summary: Check Video (Synchronous)
+      description: |
+        Moderate a video synchronously (must be under 60 seconds).
+        Submit either a raw video file or a public URL.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - models
+              properties:
+                media:
+                  type: string
+                  format: binary
+                  description: The video file to analyze (use this OR stream_url).
+                stream_url:
+                  type: string
+                  description: Public URL of the video (use this OR media).
+                models:
+                  type: string
+                  description: |
+                    Comma-separated list of detection models.
+                    Available: nudity-2.1, gore-2.0, weapon, drugs, violence,
+                    alcohol, offensive, self-harm, scam.
+      responses:
+        '200':
+          description: Successful synchronous video moderation response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoCheckSyncResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /video/check.json:
+    post:
+      operationId: checkVideoAsync
+      summary: Check Video (Asynchronous)
+      description: |
+        Start asynchronous video or live stream moderation.
+        Results are delivered via the callback URL.
+        Supports videos longer than 60 seconds and live streams
+        (HLS, RTMP, RTMPS, RTSP, RTP, MPEG-DASH).
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - models
+              properties:
+                media:
+                  type: string
+                  format: binary
+                  description: The video file to analyze (use this OR stream_url).
+                stream_url:
+                  type: string
+                  description: Public URL of the video or live stream.
+                callback_url:
+                  type: string
+                  description: Webhook URL to receive moderation results.
+                models:
+                  type: string
+                  description: |
+                    Comma-separated list of detection models.
+                    Available: nudity-2.1, gore-2.0, weapon, drugs, violence,
+                    alcohol, offensive, self-harm, scam.
+      responses:
+        '200':
+          description: Asynchronous video moderation initiated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoCheckAsyncResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /text/check.json:
+    post:
+      operationId: checkText
+      summary: Check Text
+      description: |
+        Moderate text content for profanity, personal information (emails,
+        phone numbers, usernames, IP addresses, SSNs), and links.
+        Supports rule-based mode for content filtering and username mode
+        for validating usernames.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - text
+                - lang
+                - mode
+              properties:
+                text:
+                  type: string
+                  description: UTF-8 formatted text to moderate.
+                lang:
+                  type: string
+                  description: ISO 639-1 language code (e.g., en, fr, de).
+                mode:
+                  type: string
+                  description: Moderation mode (rules or username).
+                  enum:
+                    - rules
+                    - username
+                opt_countries:
+                  type: string
+                  description: Comma-separated country codes for phone number detection.
+      responses:
+        '200':
+          description: Successful text moderation response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextCheckResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /feedback.json:
+    post:
+      operationId: submitFeedback
+      summary: Submit Feedback
+      description: |
+        Submit moderation feedback to improve model accuracy.
+        Feedback submissions are free and do not count as operations.
+        The image is used to continuously improve the specified model.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - model
+                - class
+              properties:
+                url:
+                  type: string
+                  description: Public URL to the image (use this OR media).
+                media:
+                  type: string
+                  format: binary
+                  description: The image file (use this OR url).
+                model:
+                  type: string
+                  description: |
+                    The model that classified the image.
+                    Available: nudity, gore, weapon, drugs, violence,
+                    alcohol, offensive, self-harm, scam, genai.
+                class:
+                  type: string
+                  description: The expected/correct classification result.
+      responses:
+        '200':
+          description: Feedback submitted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
