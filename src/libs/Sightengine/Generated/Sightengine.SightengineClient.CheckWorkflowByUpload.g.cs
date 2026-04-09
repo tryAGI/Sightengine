@@ -5,6 +5,25 @@ namespace Sightengine
 {
     public partial class SightengineClient
     {
+
+
+        private static readonly global::Sightengine.EndPointSecurityRequirement s_CheckWorkflowByUploadSecurityRequirement0 =
+            new global::Sightengine.EndPointSecurityRequirement
+            {
+                Authorizations = new global::Sightengine.EndPointAuthorizationRequirement[]
+                {                    new global::Sightengine.EndPointAuthorizationRequirement
+                    {
+                        Type = "Http",
+                        Location = "Header",
+                        Name = "Bearer",
+                        FriendlyName = "Bearer",
+                    },
+                },
+            };
+        private static readonly global::Sightengine.EndPointSecurityRequirement[] s_CheckWorkflowByUploadSecurityRequirements =
+            new global::Sightengine.EndPointSecurityRequirement[]
+            {                s_CheckWorkflowByUploadSecurityRequirement0,
+            };
         partial void PrepareCheckWorkflowByUploadArguments(
             global::System.Net.Http.HttpClient httpClient,
             global::Sightengine.CheckWorkflowByUploadRequest request);
@@ -42,9 +61,15 @@ namespace Sightengine
                 httpClient: HttpClient,
                 request: request);
 
+
+            var __authorizations = global::Sightengine.EndPointSecurityResolver.ResolveAuthorizations(
+                availableAuthorizations: Authorizations,
+                securityRequirements: s_CheckWorkflowByUploadSecurityRequirements,
+                operationName: "CheckWorkflowByUploadAsync");
+
             var __pathBuilder = new global::Sightengine.PathBuilder(
                 path: "/check-workflow.json",
-                baseUri: HttpClient.BaseAddress); 
+                baseUri: HttpClient.BaseAddress);
             var __path = __pathBuilder.ToString();
             using var __httpRequest = new global::System.Net.Http.HttpRequestMessage(
                 method: global::System.Net.Http.HttpMethod.Post,
@@ -54,7 +79,7 @@ namespace Sightengine
             __httpRequest.VersionPolicy = global::System.Net.Http.HttpVersionPolicy.RequestVersionOrHigher;
 #endif
 
-            foreach (var __authorization in Authorizations)
+            foreach (var __authorization in __authorizations)
             {
                 if (__authorization.Type == "Http" ||
                     __authorization.Type == "OAuth2")
