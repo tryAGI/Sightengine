@@ -5,6 +5,25 @@ namespace Sightengine
 {
     public partial class SightengineClient
     {
+
+
+        private static readonly global::Sightengine.EndPointSecurityRequirement s_CheckImageByUrlSecurityRequirement0 =
+            new global::Sightengine.EndPointSecurityRequirement
+            {
+                Authorizations = new global::Sightengine.EndPointAuthorizationRequirement[]
+                {                    new global::Sightengine.EndPointAuthorizationRequirement
+                    {
+                        Type = "Http",
+                        Location = "Header",
+                        Name = "Bearer",
+                        FriendlyName = "Bearer",
+                    },
+                },
+            };
+        private static readonly global::Sightengine.EndPointSecurityRequirement[] s_CheckImageByUrlSecurityRequirements =
+            new global::Sightengine.EndPointSecurityRequirement[]
+            {                s_CheckImageByUrlSecurityRequirement0,
+            };
         partial void PrepareCheckImageByUrlArguments(
             global::System.Net.Http.HttpClient httpClient,
             ref string url,
@@ -46,13 +65,19 @@ namespace Sightengine
                 url: ref url,
                 models: ref models);
 
+
+            var __authorizations = global::Sightengine.EndPointSecurityResolver.ResolveAuthorizations(
+                availableAuthorizations: Authorizations,
+                securityRequirements: s_CheckImageByUrlSecurityRequirements,
+                operationName: "CheckImageByUrlAsync");
+
             var __pathBuilder = new global::Sightengine.PathBuilder(
                 path: "/check.json",
                 baseUri: HttpClient.BaseAddress); 
             __pathBuilder
                 .AddRequiredParameter("url", url)
                 .AddRequiredParameter("models", models) 
-                ; 
+                ;
             var __path = __pathBuilder.ToString();
             using var __httpRequest = new global::System.Net.Http.HttpRequestMessage(
                 method: global::System.Net.Http.HttpMethod.Get,
@@ -62,7 +87,7 @@ namespace Sightengine
             __httpRequest.VersionPolicy = global::System.Net.Http.HttpVersionPolicy.RequestVersionOrHigher;
 #endif
 
-            foreach (var __authorization in Authorizations)
+            foreach (var __authorization in __authorizations)
             {
                 if (__authorization.Type == "Http" ||
                     __authorization.Type == "OAuth2")

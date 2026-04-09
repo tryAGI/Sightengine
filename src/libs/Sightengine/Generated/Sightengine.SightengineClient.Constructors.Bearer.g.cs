@@ -6,6 +6,7 @@ namespace Sightengine
     public sealed partial class SightengineClient
     {
         /// <inheritdoc cref="SightengineClient(global::System.Net.Http.HttpClient?, global::System.Uri?, global::System.Collections.Generic.List{global::Sightengine.EndPointAuthorization}?, bool)"/>
+
         public SightengineClient(
             string apiKey,
             global::System.Net.Http.HttpClient? httpClient = null,
