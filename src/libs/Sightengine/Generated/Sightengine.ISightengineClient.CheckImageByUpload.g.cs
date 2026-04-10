@@ -12,11 +12,13 @@ namespace Sightengine
         /// AI-generated image detection, image type, and quality assessment.
         /// </summary>
         /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::Sightengine.ApiException"></exception>
         global::System.Threading.Tasks.Task<global::Sightengine.ImageCheckResponse> CheckImageByUploadAsync(
 
             global::Sightengine.CheckImageByUploadRequest request,
+            global::Sightengine.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Check Image (Upload)<br/>
@@ -37,12 +39,14 @@ namespace Sightengine
         /// alcohol, offensive, self-harm, scam, face-attributes, text-content,<br/>
         /// qr-content, genai, type, quality.
         /// </param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::System.InvalidOperationException"></exception>
         global::System.Threading.Tasks.Task<global::Sightengine.ImageCheckResponse> CheckImageByUploadAsync(
             byte[] media,
             string medianame,
             string models,
+            global::Sightengine.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default);
     }
 }
