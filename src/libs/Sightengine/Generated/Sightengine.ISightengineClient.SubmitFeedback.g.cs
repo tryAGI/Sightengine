@@ -11,11 +11,13 @@ namespace Sightengine
         /// The image is used to continuously improve the specified model.
         /// </summary>
         /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::Sightengine.ApiException"></exception>
         global::System.Threading.Tasks.Task<global::Sightengine.FeedbackResponse> SubmitFeedbackAsync(
 
             global::Sightengine.SubmitFeedbackRequest request,
+            global::Sightengine.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Submit Feedback<br/>
@@ -40,6 +42,7 @@ namespace Sightengine
         /// <param name="class">
         /// The expected/correct classification result.
         /// </param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::System.InvalidOperationException"></exception>
         global::System.Threading.Tasks.Task<global::Sightengine.FeedbackResponse> SubmitFeedbackAsync(
@@ -48,6 +51,7 @@ namespace Sightengine
             string? url = default,
             byte[]? media = default,
             string? medianame = default,
+            global::Sightengine.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default);
     }
 }
