@@ -36,11 +36,11 @@ namespace Sightengine
         /// ensuring <see cref="ApiException.ResponseBody"/> is populated.
         /// </summary>
         public bool ReadResponseAsString { get; set; }
-
         /// <summary>
         /// Client-wide request defaults such as headers, query parameters, retries, and timeout.
         /// </summary>
         public global::Sightengine.AutoSDKClientOptions Options { get; }
+
 
         /// <summary>
         /// 
