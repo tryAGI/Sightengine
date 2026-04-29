@@ -135,8 +135,8 @@ namespace Sightengine
                 PrepareCheckWorkflowByUrlRequest(
                     httpClient: HttpClient,
                     httpRequestMessage: __httpRequest,
-                    url: url,
-                    workflow: workflow);
+                    url: url!,
+                    workflow: workflow!);
 
                 return __httpRequest;
             }

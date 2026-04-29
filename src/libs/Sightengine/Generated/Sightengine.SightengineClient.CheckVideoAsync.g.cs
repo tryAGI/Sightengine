@@ -125,6 +125,34 @@ namespace Sightengine
                             {
 
                                 var __contentMedia = new global::System.Net.Http.ByteArrayContent(request.Media ?? global::System.Array.Empty<byte>());
+                                __contentMedia.Headers.ContentType = new global::System.Net.Http.Headers.MediaTypeHeaderValue(
+                                    request.Medianame is null
+                                        ? "application/octet-stream"
+                                        : (global::System.IO.Path.GetExtension(request.Medianame) ?? string.Empty).ToLowerInvariant() switch
+                                        {
+                                            ".aac" => "audio/aac",
+                                            ".flac" => "audio/flac",
+                                            ".gif" => "image/gif",
+                                            ".jpeg" => "image/jpeg",
+                                            ".jpg" => "image/jpeg",
+                                            ".json" => "application/json",
+                                            ".m4a" => "audio/mp4",
+                                            ".mp3" => "audio/mpeg",
+                                            ".mp4" => "video/mp4",
+                                            ".mpeg" => "audio/mpeg",
+                                            ".mpga" => "audio/mpeg",
+                                            ".oga" => "audio/ogg",
+                                            ".ogg" => "audio/ogg",
+                                            ".opus" => "audio/ogg",
+                                            ".pdf" => "application/pdf",
+                                            ".png" => "image/png",
+                                            ".txt" => "text/plain",
+                                            ".wav" => "audio/wav",
+                                            ".weba" => "audio/webm",
+                                            ".webm" => "video/webm",
+                                            ".webp" => "image/webp",
+                                            _ => "application/octet-stream",
+                                        });
                                 __httpRequestContent.Add(
                                     content: __contentMedia,
                                     name: "\"media\"",
@@ -138,18 +166,18 @@ namespace Sightengine
                             {
 
                                 __httpRequestContent.Add(
-                                    content: new global::System.Net.Http.StringContent($"{request.StreamUrl}"),
+                                    content: new global::System.Net.Http.StringContent(request.StreamUrl ?? string.Empty),
                                     name: "\"stream_url\"");
                             } 
                             if (request.CallbackUrl != default)
                             {
 
                                 __httpRequestContent.Add(
-                                    content: new global::System.Net.Http.StringContent($"{request.CallbackUrl}"),
+                                    content: new global::System.Net.Http.StringContent(request.CallbackUrl ?? string.Empty),
                                     name: "\"callback_url\"");
                             }
                             __httpRequestContent.Add(
-                                content: new global::System.Net.Http.StringContent($"{request.Models}"),
+                                content: new global::System.Net.Http.StringContent(request.Models ?? string.Empty),
                                 name: "\"models\"");
                             __httpRequest.Content = __httpRequestContent;
                 global::Sightengine.AutoSDKRequestOptionsSupport.ApplyHeaders(
