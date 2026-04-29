@@ -137,8 +137,8 @@ namespace Sightengine
                 PrepareCheckImageByUrlRequest(
                     httpClient: HttpClient,
                     httpRequestMessage: __httpRequest,
-                    url: url,
-                    models: models);
+                    url: url!,
+                    models: models!);
 
                 return __httpRequest;
             }
