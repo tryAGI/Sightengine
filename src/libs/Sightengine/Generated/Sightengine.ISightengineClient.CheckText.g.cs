@@ -27,6 +27,22 @@ namespace Sightengine
         /// Supports rule-based mode for content filtering and username mode<br/>
         /// for validating usernames.
         /// </summary>
+        /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::Sightengine.ApiException"></exception>
+        global::System.Threading.Tasks.Task<global::Sightengine.AutoSDKHttpResponse<global::Sightengine.TextCheckResponse>> CheckTextAsResponseAsync(
+
+            global::Sightengine.CheckTextRequest request,
+            global::Sightengine.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Check Text<br/>
+        /// Moderate text content for profanity, personal information (emails,<br/>
+        /// phone numbers, usernames, IP addresses, SSNs), and links.<br/>
+        /// Supports rule-based mode for content filtering and username mode<br/>
+        /// for validating usernames.
+        /// </summary>
         /// <param name="text">
         /// UTF-8 formatted text to moderate.
         /// </param>
