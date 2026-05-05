@@ -21,5 +21,22 @@ namespace Sightengine
             string models,
             global::Sightengine.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Check Image (URL)<br/>
+        /// Moderate an image by URL using one or more detection models.<br/>
+        /// Supports nudity, violence, gore, weapons, drugs, alcohol, offensive content,<br/>
+        /// self-harm, scam detection, face analysis, text-in-image (OCR), QR codes,<br/>
+        /// AI-generated image detection, image type, and quality assessment.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="models"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::Sightengine.ApiException"></exception>
+        global::System.Threading.Tasks.Task<global::Sightengine.AutoSDKHttpResponse<global::Sightengine.ImageCheckResponse>> CheckImageByUrlAsResponseAsync(
+            string url,
+            string models,
+            global::Sightengine.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default);
     }
 }
