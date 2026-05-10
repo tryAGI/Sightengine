@@ -50,5 +50,6 @@ namespace Sightengine
         public GoreResult()
         {
         }
+
     }
 }

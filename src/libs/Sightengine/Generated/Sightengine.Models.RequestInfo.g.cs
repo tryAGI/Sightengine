@@ -63,5 +63,6 @@ namespace Sightengine
         public RequestInfo()
         {
         }
+
     }
 }

@@ -52,5 +52,6 @@ namespace Sightengine
         public ImageTypeResult()
         {
         }
+
     }
 }

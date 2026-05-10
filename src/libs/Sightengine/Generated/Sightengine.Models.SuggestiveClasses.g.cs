@@ -125,5 +125,6 @@ namespace Sightengine
         public SuggestiveClasses()
         {
         }
+
     }
 }

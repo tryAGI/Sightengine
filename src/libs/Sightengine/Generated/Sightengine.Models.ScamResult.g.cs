@@ -41,5 +41,6 @@ namespace Sightengine
         public ScamResult()
         {
         }
+
     }
 }

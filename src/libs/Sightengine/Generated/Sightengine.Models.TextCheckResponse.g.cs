@@ -96,5 +96,6 @@ namespace Sightengine
         public TextCheckResponse()
         {
         }
+
     }
 }

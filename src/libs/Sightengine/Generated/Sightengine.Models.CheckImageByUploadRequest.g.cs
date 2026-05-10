@@ -72,5 +72,6 @@ namespace Sightengine
         public CheckImageByUploadRequest()
         {
         }
+
     }
 }

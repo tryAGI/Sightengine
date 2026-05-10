@@ -90,5 +90,6 @@ namespace Sightengine
         public CheckVideoAsyncRequest()
         {
         }
+
     }
 }
