@@ -118,5 +118,6 @@ namespace Sightengine
         public NudityResult()
         {
         }
+
     }
 }

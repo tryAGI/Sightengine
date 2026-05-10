@@ -66,5 +66,6 @@ namespace Sightengine
         public SuggestiveClassesMaleChestCategories()
         {
         }
+
     }
 }

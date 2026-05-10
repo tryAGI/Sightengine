@@ -64,5 +64,6 @@ namespace Sightengine
         public WorkflowCheckResponseSummary()
         {
         }
+
     }
 }
