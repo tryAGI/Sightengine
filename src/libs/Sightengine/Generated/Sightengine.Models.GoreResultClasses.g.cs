@@ -85,5 +85,6 @@ namespace Sightengine
         public GoreResultClasses()
         {
         }
+
     }
 }

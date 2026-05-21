@@ -74,5 +74,6 @@ namespace Sightengine
         public LinkMatch()
         {
         }
+
     }
 }

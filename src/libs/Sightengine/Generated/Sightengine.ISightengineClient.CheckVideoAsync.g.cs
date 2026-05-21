@@ -27,6 +27,22 @@ namespace Sightengine
         /// Supports videos longer than 60 seconds and live streams<br/>
         /// (HLS, RTMP, RTMPS, RTSP, RTP, MPEG-DASH).
         /// </summary>
+        /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::Sightengine.ApiException"></exception>
+        global::System.Threading.Tasks.Task<global::Sightengine.AutoSDKHttpResponse<global::Sightengine.VideoCheckAsyncResponse>> CheckVideoAsyncAsResponseAsync(
+
+            global::Sightengine.CheckVideoAsyncRequest request,
+            global::Sightengine.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Check Video (Asynchronous)<br/>
+        /// Start asynchronous video or live stream moderation.<br/>
+        /// Results are delivered via the callback URL.<br/>
+        /// Supports videos longer than 60 seconds and live streams<br/>
+        /// (HLS, RTMP, RTMPS, RTSP, RTP, MPEG-DASH).
+        /// </summary>
         /// <param name="media">
         /// The video file to analyze (use this OR stream_url).
         /// </param>

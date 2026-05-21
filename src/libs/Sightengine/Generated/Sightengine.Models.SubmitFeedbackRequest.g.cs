@@ -91,5 +91,6 @@ namespace Sightengine
         public SubmitFeedbackRequest()
         {
         }
+
     }
 }

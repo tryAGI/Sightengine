@@ -57,6 +57,31 @@ namespace Sightengine
             global::Sightengine.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
+            var __response = await SubmitFeedbackAsResponseAsync(
+
+                request: request,
+                requestOptions: requestOptions,
+                cancellationToken: cancellationToken
+            ).ConfigureAwait(false);
+
+            return __response.Body;
+        }
+        /// <summary>
+        /// Submit Feedback<br/>
+        /// Submit moderation feedback to improve model accuracy.<br/>
+        /// Feedback submissions are free and do not count as operations.<br/>
+        /// The image is used to continuously improve the specified model.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::Sightengine.ApiException"></exception>
+        public async global::System.Threading.Tasks.Task<global::Sightengine.AutoSDKHttpResponse<global::Sightengine.FeedbackResponse>> SubmitFeedbackAsResponseAsync(
+
+            global::Sightengine.SubmitFeedbackRequest request,
+            global::Sightengine.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default)
+        {
             request = request ?? throw new global::System.ArgumentNullException(nameof(request));
 
             PrepareArguments(
@@ -83,10 +108,11 @@ namespace Sightengine
             var __maxAttempts = global::Sightengine.AutoSDKRequestOptionsSupport.GetMaxAttempts(
                 clientOptions: Options,
                 requestOptions: requestOptions,
-                supportsRetry: true);
+                supportsRetry: false);
 
             global::System.Net.Http.HttpRequestMessage __CreateHttpRequest()
             {
+
                             var __pathBuilder = new global::Sightengine.PathBuilder(
                                 path: "/feedback.json",
                                 baseUri: HttpClient.BaseAddress);
@@ -119,6 +145,7 @@ namespace Sightengine
                     __httpRequest.Headers.Add(__authorization.Name, __authorization.Value);
                 } 
             }
+
                             var __httpRequestContent = new global::System.Net.Http.MultipartFormDataContent();
                             if (request.Url != default)
                             {
@@ -126,7 +153,8 @@ namespace Sightengine
                                 __httpRequestContent.Add(
                                     content: new global::System.Net.Http.StringContent(request.Url ?? string.Empty),
                                     name: "\"url\"");
-                            } 
+
+                            }
                             if (request.Media != default)
                             {
 
@@ -167,14 +195,18 @@ namespace Sightengine
                                 {
                                     __contentMedia.Headers.ContentDisposition.FileNameStar = null;
                                 }
+
                             }
                             __httpRequestContent.Add(
                                 content: new global::System.Net.Http.StringContent(request.Model ?? string.Empty),
                                 name: "\"model\"");
+
                             __httpRequestContent.Add(
                                 content: new global::System.Net.Http.StringContent(request.Class ?? string.Empty),
                                 name: "\"class\"");
+
                             __httpRequest.Content = __httpRequestContent;
+
                 global::Sightengine.AutoSDKRequestOptionsSupport.ApplyHeaders(
                     request: __httpRequest,
                     clientHeaders: Options.Headers,
@@ -216,6 +248,8 @@ namespace Sightengine
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                     try
                     {
@@ -226,6 +260,11 @@ namespace Sightengine
                     }
                     catch (global::System.Net.Http.HttpRequestException __exception)
                     {
+                        var __retryDelay = global::Sightengine.AutoSDKRequestOptionsSupport.GetRetryDelay(
+                            clientOptions: Options,
+                            requestOptions: requestOptions,
+                            response: null,
+                            attempt: __attempt);
                         var __willRetry = __attempt < __maxAttempts && !__effectiveCancellationToken.IsCancellationRequested;
                         await global::Sightengine.AutoSDKRequestOptionsSupport.OnAfterErrorAsync(
                             clientOptions: Options,
@@ -243,6 +282,8 @@ namespace Sightengine
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: __willRetry,
+                                retryDelay: __willRetry ? __retryDelay : (global::System.TimeSpan?)null,
+                                retryReason: "exception",
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                         if (!__willRetry)
                         {
@@ -252,8 +293,7 @@ namespace Sightengine
                         __httpRequest.Dispose();
                         __httpRequest = null;
                         await global::Sightengine.AutoSDKRequestOptionsSupport.DelayBeforeRetryAsync(
-                            clientOptions: Options,
-                            requestOptions: requestOptions,
+                            retryDelay: __retryDelay,
                             cancellationToken: __effectiveCancellationToken).ConfigureAwait(false);
                         continue;
                     }
@@ -262,6 +302,11 @@ namespace Sightengine
                         __attempt < __maxAttempts &&
                         global::Sightengine.AutoSDKRequestOptionsSupport.ShouldRetryStatusCode(__response.StatusCode))
                     {
+                        var __retryDelay = global::Sightengine.AutoSDKRequestOptionsSupport.GetRetryDelay(
+                            clientOptions: Options,
+                            requestOptions: requestOptions,
+                            response: __response,
+                            attempt: __attempt);
                         await global::Sightengine.AutoSDKRequestOptionsSupport.OnAfterErrorAsync(
                             clientOptions: Options,
                             context: global::Sightengine.AutoSDKRequestOptionsSupport.CreateHookContext(
@@ -278,14 +323,15 @@ namespace Sightengine
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: true,
+                                retryDelay: __retryDelay,
+                                retryReason: "status:" + ((int)__response.StatusCode).ToString(global::System.Globalization.CultureInfo.InvariantCulture),
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                         __response.Dispose();
                         __response = null;
                         __httpRequest.Dispose();
                         __httpRequest = null;
                         await global::Sightengine.AutoSDKRequestOptionsSupport.DelayBeforeRetryAsync(
-                            clientOptions: Options,
-                            requestOptions: requestOptions,
+                            retryDelay: __retryDelay,
                             cancellationToken: __effectiveCancellationToken).ConfigureAwait(false);
                         continue;
                     }
@@ -325,6 +371,8 @@ namespace Sightengine
                                 attempt: __attemptNumber,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                 }
                 else
@@ -345,6 +393,8 @@ namespace Sightengine
                                 attempt: __attemptNumber,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                 }
                             // Bad request.
@@ -445,9 +495,13 @@ namespace Sightengine
                                 {
                                     __response.EnsureSuccessStatusCode();
 
-                                    return
-                                        global::Sightengine.FeedbackResponse.FromJson(__content, JsonSerializerContext) ??
+                                    var __value = global::Sightengine.FeedbackResponse.FromJson(__content, JsonSerializerContext) ??
                                         throw new global::System.InvalidOperationException($"Response deserialization failed for \"{__content}\" ");
+                                    return new global::Sightengine.AutoSDKHttpResponse<global::Sightengine.FeedbackResponse>(
+                                        statusCode: __response.StatusCode,
+                                        headers: global::Sightengine.AutoSDKHttpResponse.CreateHeaders(__response),
+                                        requestUri: __response.RequestMessage?.RequestUri,
+                                        body: __value);
                                 }
                                 catch (global::System.Exception __ex)
                                 {
@@ -475,9 +529,13 @@ namespace Sightengine
                 #endif
                                     ).ConfigureAwait(false);
 
-                                    return
-                                        await global::Sightengine.FeedbackResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
+                                    var __value = await global::Sightengine.FeedbackResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
                                         throw new global::System.InvalidOperationException("Response deserialization failed.");
+                                    return new global::Sightengine.AutoSDKHttpResponse<global::Sightengine.FeedbackResponse>(
+                                        statusCode: __response.StatusCode,
+                                        headers: global::Sightengine.AutoSDKHttpResponse.CreateHeaders(__response),
+                                        requestUri: __response.RequestMessage?.RequestUri,
+                                        body: __value);
                                 }
                                 catch (global::System.Exception __ex)
                                 {

@@ -79,5 +79,6 @@ namespace Sightengine
         public CheckVideoSyncRequest()
         {
         }
+
     }
 }

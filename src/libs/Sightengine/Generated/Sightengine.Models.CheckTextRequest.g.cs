@@ -78,5 +78,6 @@ namespace Sightengine
         public CheckTextRequest()
         {
         }
+
     }
 }

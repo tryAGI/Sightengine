@@ -25,6 +25,21 @@ namespace Sightengine
         /// Feedback submissions are free and do not count as operations.<br/>
         /// The image is used to continuously improve the specified model.
         /// </summary>
+        /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::Sightengine.ApiException"></exception>
+        global::System.Threading.Tasks.Task<global::Sightengine.AutoSDKHttpResponse<global::Sightengine.FeedbackResponse>> SubmitFeedbackAsResponseAsync(
+
+            global::Sightengine.SubmitFeedbackRequest request,
+            global::Sightengine.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Submit Feedback<br/>
+        /// Submit moderation feedback to improve model accuracy.<br/>
+        /// Feedback submissions are free and do not count as operations.<br/>
+        /// The image is used to continuously improve the specified model.
+        /// </summary>
         /// <param name="url">
         /// Public URL to the image (use this OR media).
         /// </param>
