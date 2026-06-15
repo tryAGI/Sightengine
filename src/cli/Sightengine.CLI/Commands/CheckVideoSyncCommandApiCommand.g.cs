@@ -106,9 +106,9 @@ Submit either a raw video file or a public URL.
                             RequestFile,
                             global::Sightengine.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var media = CliRuntime.WasSpecified(parseResult, Media) ? parseResult.GetValue(Media) : __requestBase is not null ? __requestBase.Media : default;
-                        var medianame = CliRuntime.WasSpecified(parseResult, Medianame) ? parseResult.GetValue(Medianame) : __requestBase is not null ? __requestBase.Medianame : default;
-                        var streamUrl = CliRuntime.WasSpecified(parseResult, StreamUrl) ? parseResult.GetValue(StreamUrl) : __requestBase is not null ? __requestBase.StreamUrl : default;
+                        var media = CliRuntime.WasSpecified(parseResult, Media) ? parseResult.GetValue(Media) : (__requestBase is { } __MediaBaseValue ? __MediaBaseValue.Media : default);
+                        var medianame = CliRuntime.WasSpecified(parseResult, Medianame) ? parseResult.GetValue(Medianame) : (__requestBase is { } __MedianameBaseValue ? __MedianameBaseValue.Medianame : default);
+                        var streamUrl = CliRuntime.WasSpecified(parseResult, StreamUrl) ? parseResult.GetValue(StreamUrl) : (__requestBase is { } __StreamUrlBaseValue ? __StreamUrlBaseValue.StreamUrl : default);
                         var models = parseResult.GetRequiredValue(Models);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
