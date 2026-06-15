@@ -110,7 +110,7 @@ for validating usernames.
                         var text = parseResult.GetRequiredValue(Text);
                         var lang = parseResult.GetRequiredValue(Lang);
                         var mode = parseResult.GetRequiredValue(Mode);
-                        var optCountries = CliRuntime.WasSpecified(parseResult, OptCountries) ? parseResult.GetValue(OptCountries) : __requestBase is not null ? __requestBase.OptCountries : default;
+                        var optCountries = CliRuntime.WasSpecified(parseResult, OptCountries) ? parseResult.GetValue(OptCountries) : (__requestBase is { } __OptCountriesBaseValue ? __OptCountriesBaseValue.OptCountries : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 

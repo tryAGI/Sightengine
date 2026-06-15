@@ -115,9 +115,9 @@ The image is used to continuously improve the specified model.
                             RequestFile,
                             global::Sightengine.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var url = CliRuntime.WasSpecified(parseResult, Url) ? parseResult.GetValue(Url) : __requestBase is not null ? __requestBase.Url : default;
-                        var media = CliRuntime.WasSpecified(parseResult, Media) ? parseResult.GetValue(Media) : __requestBase is not null ? __requestBase.Media : default;
-                        var medianame = CliRuntime.WasSpecified(parseResult, Medianame) ? parseResult.GetValue(Medianame) : __requestBase is not null ? __requestBase.Medianame : default;
+                        var url = CliRuntime.WasSpecified(parseResult, Url) ? parseResult.GetValue(Url) : (__requestBase is { } __UrlBaseValue ? __UrlBaseValue.Url : default);
+                        var media = CliRuntime.WasSpecified(parseResult, Media) ? parseResult.GetValue(Media) : (__requestBase is { } __MediaBaseValue ? __MediaBaseValue.Media : default);
+                        var medianame = CliRuntime.WasSpecified(parseResult, Medianame) ? parseResult.GetValue(Medianame) : (__requestBase is { } __MedianameBaseValue ? __MedianameBaseValue.Medianame : default);
                         var model = parseResult.GetRequiredValue(Model);
                         var @class = parseResult.GetRequiredValue(Class);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
