@@ -18,3 +18,21 @@ autosdk generate openapi.yaml \
   --output Generated \
   --exclude-deprecated-operations \
   --security-scheme Http:Header:Bearer
+
+rm -rf ../../cli/Sightengine.CLI
+
+autosdk cli-project openapi.yaml \
+  --output ../../cli/Sightengine.CLI \
+  --sdk-project ../../libs/Sightengine/Sightengine.csproj \
+  --targetFramework net10.0 \
+  --namespace Sightengine \
+  --clientClassName SightengineClient \
+  --package-id Sightengine.CLI \
+  --tool-command-name sightengine \
+  --user-secrets-id Sightengine.CLI \
+  --api-key-env-var SIGHTENGINE_API_KEY \
+  --base-url-env-var SIGHTENGINE_BASE_URL \
+  --cli-credential-file \
+  --cli-keep-api-group \
+  --exclude-deprecated-operations \
+  --security-scheme Http:Header:Bearer

@@ -19,6 +19,13 @@ using Sightengine;
 using var client = new SightengineClient(apiKey);
 ```
 
+### CLI
+
+```bash
+dotnet tool install --global Sightengine.CLI --prerelease
+sightengine api --help
+```
+
 <!-- EXAMPLES:START -->
 <!-- EXAMPLES:END -->
 
