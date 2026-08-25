@@ -147,12 +147,25 @@ namespace Sightengine
                     __httpRequest.Headers.Add(__authorization.Name, __authorization.Value);
                 } 
             }
-                            var __httpRequestContentBody = request.ToJson(JsonSerializerContext);
-                            var __httpRequestContent = new global::System.Net.Http.StringContent(
-                                content: __httpRequestContentBody,
-                                encoding: global::System.Text.Encoding.UTF8,
-                                mediaType: "application/x-www-form-urlencoded");
+                            var __formValues = new global::System.Collections.Generic.List<global::System.Collections.Generic.KeyValuePair<string, string>>();
+                            __formValues.Add(new global::System.Collections.Generic.KeyValuePair<string, string>(
+                                "text",
+                                request.Text ?? string.Empty));
+                            __formValues.Add(new global::System.Collections.Generic.KeyValuePair<string, string>(
+                                "lang",
+                                request.Lang ?? string.Empty));
+                            __formValues.Add(new global::System.Collections.Generic.KeyValuePair<string, string>(
+                                "mode",
+                                request.Mode.ToValueString()));
+                            if (request.OptCountries != default)
+                            {
+                                __formValues.Add(new global::System.Collections.Generic.KeyValuePair<string, string>(
+                                    "opt_countries",
+                                    request.OptCountries ?? string.Empty));
+                            }
+                            var __httpRequestContent = new global::System.Net.Http.FormUrlEncodedContent(__formValues);
                             __httpRequest.Content = __httpRequestContent;
+
                 global::Sightengine.AutoSDKRequestOptionsSupport.ApplyHeaders(
                     request: __httpRequest,
                     clientHeaders: Options.Headers,
