@@ -4,24 +4,24 @@
 namespace Sightengine
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class SuggestiveClassesCleavageCategories
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("very_revealing")]
         public double? VeryRevealing { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("revealing")]
         public double? Revealing { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("none")]
         public double? None { get; set; }

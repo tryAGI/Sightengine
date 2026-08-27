@@ -9,7 +9,7 @@ namespace Sightengine
     public sealed partial class WeaponResult
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("classes")]
         public global::Sightengine.WeaponResultClasses? Classes { get; set; }
