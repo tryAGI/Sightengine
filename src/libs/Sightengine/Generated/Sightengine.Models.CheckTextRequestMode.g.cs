@@ -9,11 +9,11 @@ namespace Sightengine
     public enum CheckTextRequestMode
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Rules,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Username,
     }

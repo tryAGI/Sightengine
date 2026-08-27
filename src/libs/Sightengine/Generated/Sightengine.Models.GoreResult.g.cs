@@ -15,7 +15,7 @@ namespace Sightengine
         public double? Prob { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("classes")]
         public global::Sightengine.GoreResultClasses? Classes { get; set; }

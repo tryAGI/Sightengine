@@ -9,7 +9,7 @@ namespace Sightengine
     public sealed partial class DrugResult
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("classes")]
         public global::Sightengine.DrugResultClasses? Classes { get; set; }

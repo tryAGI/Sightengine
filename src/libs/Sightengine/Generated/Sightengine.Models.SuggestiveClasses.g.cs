@@ -21,7 +21,7 @@ namespace Sightengine
         public double? Cleavage { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("cleavage_categories")]
         public global::Sightengine.SuggestiveClassesCleavageCategories? CleavageCategories { get; set; }
@@ -39,7 +39,7 @@ namespace Sightengine
         public double? MaleChest { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("male_chest_categories")]
         public global::Sightengine.SuggestiveClassesMaleChestCategories? MaleChestCategories { get; set; }

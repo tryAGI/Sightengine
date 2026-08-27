@@ -4,7 +4,7 @@
 namespace Sightengine
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class CheckVideoAsyncRequest
     {

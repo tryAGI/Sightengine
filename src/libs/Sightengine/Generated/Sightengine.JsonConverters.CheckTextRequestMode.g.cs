@@ -20,7 +20,7 @@ namespace Sightengine.JsonConverters
                     {
                         return global::Sightengine.CheckTextRequestModeExtensions.ToEnum(stringValue) ?? default;
                     }
-                    
+
                     break;
                 }
                 case global::System.Text.Json.JsonTokenType.Number:

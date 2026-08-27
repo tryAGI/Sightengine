@@ -9,11 +9,11 @@ namespace Sightengine
     public enum WorkflowCheckResponseSummaryAction
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Accept,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Reject,
     }

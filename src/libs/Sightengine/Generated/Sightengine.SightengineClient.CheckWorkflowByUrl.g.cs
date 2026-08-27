@@ -148,7 +148,7 @@ namespace Sightengine
                          __authorization.Location == "Header")
                 {
                     __httpRequest.Headers.Add(__authorization.Name, __authorization.Value);
-                } 
+                }
             }
                 global::Sightengine.AutoSDKRequestOptionsSupport.ApplyHeaders(
                     request: __httpRequest,

@@ -15,7 +15,7 @@ namespace Sightengine
         public string? Status { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("error")]
         public global::Sightengine.ErrorResponseError? Error { get; set; }
