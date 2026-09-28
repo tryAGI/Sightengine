@@ -41,6 +41,8 @@ internal static partial class CheckWorkflowByUrlCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"check-workflow-by-url", @"Check Image with Workflow (URL)
@@ -72,6 +74,7 @@ Workflows define custom rules and actions from the dashboard.
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

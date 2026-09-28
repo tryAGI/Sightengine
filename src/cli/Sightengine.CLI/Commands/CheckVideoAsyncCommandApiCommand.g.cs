@@ -77,6 +77,8 @@ alcohol, offensive, self-harm, scam.
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"check-video-async", @"Check Video (Asynchronous)
@@ -139,6 +141,7 @@ Supports videos longer than 60 seconds and live streams
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }
