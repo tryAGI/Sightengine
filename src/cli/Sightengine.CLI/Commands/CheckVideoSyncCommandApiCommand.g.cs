@@ -71,6 +71,8 @@ alcohol, offensive, self-harm, scam.
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"check-video-sync", @"Check Video (Synchronous)
@@ -128,6 +130,7 @@ Submit either a raw video file or a public URL.
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }
