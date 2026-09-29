@@ -79,9 +79,9 @@ alcohol, offensive, self-harm, scam.
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"check-video-async", @"Check Video (Asynchronous)
+        var command = new Command(commandName ?? @"check-video-async", @"Check Video (Asynchronous)
 Start asynchronous video or live stream moderation.
 Results are delivered via the callback URL.
 Supports videos longer than 60 seconds and live streams

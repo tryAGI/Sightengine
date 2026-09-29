@@ -43,9 +43,9 @@ internal static partial class CheckWorkflowByUrlCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"check-workflow-by-url", @"Check Image with Workflow (URL)
+        var command = new Command(commandName ?? @"check-workflow-by-url", @"Check Image with Workflow (URL)
 Moderate an image by URL using a pre-configured workflow.
 Workflows define custom rules and actions from the dashboard.
 ");

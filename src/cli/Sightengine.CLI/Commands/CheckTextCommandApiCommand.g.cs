@@ -72,9 +72,9 @@ internal static partial class CheckTextCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"check-text", @"Check Text
+        var command = new Command(commandName ?? @"check-text", @"Check Text
 Moderate text content for profanity, personal information (emails,
 phone numbers, usernames, IP addresses, SSNs), and links.
 Supports rule-based mode for content filtering and username mode
