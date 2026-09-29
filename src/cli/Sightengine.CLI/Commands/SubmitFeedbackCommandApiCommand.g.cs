@@ -80,9 +80,9 @@ alcohol, offensive, self-harm, scam, genai.
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"submit-feedback", @"Submit Feedback
+        var command = new Command(commandName ?? @"submit-feedback", @"Submit Feedback
 Submit moderation feedback to improve model accuracy.
 Feedback submissions are free and do not count as operations.
 The image is used to continuously improve the specified model.

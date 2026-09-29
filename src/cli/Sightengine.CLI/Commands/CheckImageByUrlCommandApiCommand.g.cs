@@ -47,9 +47,9 @@ qr-content, genai, type, quality.
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"check-image-by-url", @"Check Image (URL)
+        var command = new Command(commandName ?? @"check-image-by-url", @"Check Image (URL)
 Moderate an image by URL using one or more detection models.
 Supports nudity, violence, gore, weapons, drugs, alcohol, offensive content,
 self-harm, scam detection, face analysis, text-in-image (OCR), QR codes,

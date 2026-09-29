@@ -73,9 +73,9 @@ alcohol, offensive, self-harm, scam.
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"check-video-sync", @"Check Video (Synchronous)
+        var command = new Command(commandName ?? @"check-video-sync", @"Check Video (Synchronous)
 Moderate a video synchronously (must be under 60 seconds).
 Submit either a raw video file or a public URL.
 ");

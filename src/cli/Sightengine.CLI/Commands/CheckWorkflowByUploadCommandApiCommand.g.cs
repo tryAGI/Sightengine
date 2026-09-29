@@ -50,9 +50,9 @@ internal static partial class CheckWorkflowByUploadCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"check-workflow-by-upload", @"Check Image with Workflow (Upload)
+        var command = new Command(commandName ?? @"check-workflow-by-upload", @"Check Image with Workflow (Upload)
 Moderate an uploaded image using a pre-configured workflow.
 Workflows define custom rules and actions from the dashboard.
 ");
