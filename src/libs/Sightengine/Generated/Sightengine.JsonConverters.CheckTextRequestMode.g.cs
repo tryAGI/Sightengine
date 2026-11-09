@@ -18,7 +18,7 @@ namespace Sightengine.JsonConverters
                     var stringValue = reader.GetString();
                     if (stringValue != null)
                     {
-                        return global::Sightengine.CheckTextRequestModeExtensions.ToEnum(stringValue) ?? default;
+                        return global::Sightengine.CheckTextRequestModeExtensions.ToEnum(stringValue) ?? throw new global::System.Text.Json.JsonException($"Unknown value '{stringValue}' for global::Sightengine.CheckTextRequestMode.");
                     }
 
                     break;
